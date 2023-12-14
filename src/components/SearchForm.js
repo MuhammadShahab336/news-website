@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Button, Col, Container, Row, Form} from "react-bootstrap";
 import Collapse from 'react-bootstrap/Collapse';
-import FilterFormModal from "./FilterFormModal";
+import FilterModal from "./FilterModal";
 
-const FilteringForm = () => {
+const SearchForm = () => {
     const [show, setShow] = useState(false);
 
     const handleShow = () => {
@@ -49,7 +49,7 @@ const FilteringForm = () => {
                 </Col>
             </Container>
 
-            <FilterFormModal
+            <FilterModal
                 show={show}
                 handleClose={handleClose}
             />
@@ -57,4 +57,4 @@ const FilteringForm = () => {
     );
 };
 
-export default FilteringForm;
+export default SearchForm;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal, Col, Row} from "react-bootstrap";
 
-const FilterFormModal = (props) => {
+const FilterModal = (props) => {
     const {show, handleClose} = props;
 
     return (
@@ -85,4 +85,4 @@ const FilterFormModal = (props) => {
     );
 };
 
-export default FilterFormModal;
+export default FilterModal;

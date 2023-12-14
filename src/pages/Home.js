@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import FilteringForm from "../components/FilteringForm";
+import SearchForm from "../components/SearchForm";
 import ArticleCards from "../components/ArticleCards";
 import {Container} from "react-bootstrap";
 
@@ -12,7 +12,7 @@ const Home = () => {
                     Read The Leatest New From <br /> Around The World
                 </h2>
             </Container>
-            <FilteringForm />
+            <SearchForm />
             <ArticleCards />
         </>
     );

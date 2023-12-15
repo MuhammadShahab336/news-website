@@ -6,14 +6,24 @@ import MainLayout from "../layouts/MainLayout";
 
 const SignIn = lazy(() => import('../pages/SignIn'));
 const SignUp = lazy(() => import('../pages/SignUp'));
+const Profile = lazy(() => import('../pages/Profile'));
 const Home = lazy(() => import('../pages/Home'));
+
 
 const AppRoutes = () => {
     return (
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MainLayout />} >
+                    <Route path="/" element={<MainLayout />}>
+                        <Route
+                            index={true}
+                            element={<Home />}
+                        />
+                        <Route
+                            path="/profile"
+                            element={<Profile />}
+                        />
                         <Route
                             path="/signin"
                             element={<SignIn />}
@@ -21,10 +31,6 @@ const AppRoutes = () => {
                         <Route
                             path="/signup"
                             element={<SignUp />}
-                        />
-                        <Route
-                            index={true}
-                            element={<Home />}
                         />
                         <Route
                             path="*"

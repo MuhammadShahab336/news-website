@@ -1,10 +1,11 @@
 import React from 'react';
 import {Form, Button, Row, Col, Container, Spinner} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useLoginMutation} from "../redux/services/authService";
 import {useForm} from "react-hook-form";
 
 const SignIn = () => {
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -18,7 +19,7 @@ const SignIn = () => {
     const onLogin = async (data) => {
         await loginRequest(data).unwrap()
             .then((res) => {
-
+                navigate('/profile')
             })
             .catch((err) => {
                 console.log('err', err)

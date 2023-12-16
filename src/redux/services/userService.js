@@ -10,7 +10,14 @@ import {
 const authApi = newsApi.injectEndpoints({
     endpoints: (build) => ({
         getProfile: build.query({
-            query: () => `${PROFILE_ENDPOINT}`,
+            query: () => ({
+                url: `${PROFILE_ENDPOINT}`,
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            }),
+            providesTags: ['Profile'],
         }),
         updateProfile: build.mutation({
             query: (credentials) => ({
@@ -21,6 +28,7 @@ const authApi = newsApi.injectEndpoints({
                     'Accept': 'application/json',
                 },
             }),
+            invalidatesTags: ['Profile'],
         }),
         changePassword: build.mutation({
             query: (form) => ({
@@ -31,6 +39,7 @@ const authApi = newsApi.injectEndpoints({
                     'Accept': 'application/json',
                 },
             }),
+            invalidatesTags: ['Profile'],
         }),
     }),
     overrideExisting: false,

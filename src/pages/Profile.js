@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Col, Container, Form, Nav, Row, Tab, Tabs} from "react-bootstrap";
 import ProfileForm from "../components/profile/ProfileForm";
+import ChangePasswordFrom from "../components/profile/ChangePasswordFrom";
 
 const Profile = () => {
     const [key, setKey] = useState('profile')
@@ -52,44 +53,7 @@ const Profile = () => {
 
                         {key === 'changePassword' && (
                             <>
-                                <Form>
-                                    <Form.Group className="mb-3 small">
-                                        <Form.Label className="">
-                                            Current Password
-                                        </Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            value="Muhammad"
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3 small">
-                                        <Form.Label className="">
-                                            New Password
-                                        </Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            value="Shahab"
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3 small">
-                                        <Form.Label className="t">
-                                            Confirmed Password
-                                        </Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            value="shahab@yopmail.com"
-                                        />
-                                    </Form.Group>
-
-                                    <br />
-
-                                    <Button
-                                        variant="dark"
-                                        className="w-100 rounded-0 shadow-none"
-                                    >
-                                        Save Password
-                                    </Button>
-                                </Form>
+                                <ChangePasswordFrom />
                             </>
                         )}
                     </Col>

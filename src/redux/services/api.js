@@ -5,9 +5,9 @@ const baseQuery = fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
         // By default, if we have a token in the store, let's use that for authenticated requests
-        const token = getState()?.auth?.token
+        const token = getState().user.token
         if (token) {
-            headers.set('authentication', `Bearer ${token}`)
+            headers.set('authorization', `Bearer ${token}`)
         }
         return headers
     },
@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const newsApi = createApi({
     baseQuery: baseQuery,
-    tagTypes: ['Time', 'Posts', 'Counter'],
+    tagTypes: ['Profile'],
 
     endpoints: () => ({}),
 })

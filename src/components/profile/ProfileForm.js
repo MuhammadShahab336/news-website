@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {useLoginMutation} from "../../redux/services/authService";
@@ -13,7 +13,7 @@ const ProfileForm = () => {
         formState: {errors},
     } = useForm()
 
-    const { data ,isLoading: isProfileLoading} = useGetProfileQuery()
+    const { data ,isLoading: isProfileLoading, refetch } = useGetProfileQuery()
     const [updateProfileRequest, { isLoading, error } ] = useUpdateProfileMutation()
 
     const onUpdateProfile = async (data) => {
@@ -33,6 +33,9 @@ const ProfileForm = () => {
             })
     }
 
+    // useEffect(() => {
+    //     refetch()
+    // }, []);
 
     if (isProfileLoading) return <i className="fa-light fa-spinner fa-spin" />;
 
@@ -46,8 +49,10 @@ const ProfileForm = () => {
                     <Form.Control
                         type="text"
                         placeholder="Enter Firstname Here..."
-                        value={data?.data?.first_name}
-                        {...register('first_name', { required: 'First Name is Required' } )}
+                        {...register('first_name', {
+                            required: 'First Name is Required',
+                            value: data?.data?.user?.first_name
+                        })}
                         isInvalid={errors.first_name}
                     />
                     {errors.first_name && (
@@ -63,8 +68,11 @@ const ProfileForm = () => {
                     <Form.Control
                         type="text"
                         placeholder="Enter Lastname Here..."
-                        value={data?.data?.last_name}
-                        {...register('last_name', { required: 'Last Name is Required' } )}
+                        value={data?.data?.user?.last_name}
+                        {...register('last_name', {
+                            required: 'Last Name is Required',
+                            value: data?.data?.user?.last_name
+                        })}
                         isInvalid={errors.last_name}
                     />
                     {errors.last_name && (
@@ -81,7 +89,7 @@ const ProfileForm = () => {
                         type="email"
                         disabled={true}
                         placeholder="Enter Email Here..."
-                        value={data?.data?.email}
+                        value={data?.data?.user?.email || ''}
                         readOnly={true}
                     />
                 </Form.Group>
@@ -91,6 +99,7 @@ const ProfileForm = () => {
                 <Button
                     variant="dark"
                     type="submit"
+                    disabled={isLoading}
                     className="w-100 rounded-0 shadow-none"
                 >
                     {isLoading ? <i className="fa-light fa-spinner fa-spin" /> : 'Save Profile'}

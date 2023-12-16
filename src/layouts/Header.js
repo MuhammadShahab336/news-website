@@ -1,10 +1,13 @@
 import React from 'react';
 import {Button, Col, Container, NavDropdown, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../redux/slices/userSlice";
 
 const Header = () => {
+    const { isAuthenticated } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [isLogin, setIsLogin] = React.useState(true)
 
     return (
         <>
@@ -23,7 +26,7 @@ const Header = () => {
                         </h1>
                     </Col>
                     <Col>
-                        {isLogin ? (
+                        {isAuthenticated ? (
                             <Row className="g-0 align-items-center justify-content-end">
                                 <Col xs="auto">
                                     <NavDropdown
@@ -33,7 +36,7 @@ const Header = () => {
                                         <NavDropdown.Item onClick={() => navigate('/profile')}>
                                             Profile
                                         </NavDropdown.Item>
-                                        <NavDropdown.Item onClick={() => setIsLogin(false)}>
+                                        <NavDropdown.Item onClick={() => dispatch(logout())}>
                                             Logout
                                         </NavDropdown.Item>
                                     </NavDropdown>

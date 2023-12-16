@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 import { newsApi } from './services/api'
+import userReducer from './slices/userSlice'
 
 const persistConfig = {
     key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     [newsApi.reducerPath]: newsApi.reducer,
+    user: userReducer,
     // auth: authReducer,
 })
 
@@ -24,5 +26,6 @@ export const store = configureStore({
             serializableCheck: false,
         }).concat(newsApi.middleware),
 })
+
 export const persistor = persistStore(store)
 setupListeners(store.dispatch)

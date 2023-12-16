@@ -1,7 +1,7 @@
 import { newsApi } from './api'
 import {LOGIN_ENDPOINT, REGISTER_ENDPOINT} from "./apiConstants";
 
-const authApi = newsApi.injectEndpoints({
+export const authApi = newsApi.injectEndpoints({
     endpoints: (build) => ({
         login: build.mutation({
             query: (credentials) => ({
@@ -12,6 +12,7 @@ const authApi = newsApi.injectEndpoints({
                     'Accept': 'application/json',
                 },
             }),
+            invalidatesTags: ['Profile'],
         }),
         register: build.mutation({
             query: (form) => ({

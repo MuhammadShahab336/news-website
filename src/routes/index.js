@@ -22,7 +22,7 @@ const AppRoutes = () => {
                         />
                         <Route
                             path="/profile"
-                            element={<Profile />}
+                            element={<PrivateRoute component={Profile} />}
                         />
                         <Route
                             path="/signin"

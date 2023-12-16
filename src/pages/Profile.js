@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Col, Container, Form, Nav, Row, Tab, Tabs} from "react-bootstrap";
 import ProfileForm from "../components/profile/ProfileForm";
 import ChangePasswordFrom from "../components/profile/ChangePasswordFrom";
+import PreferenceForm from "../components/profile/PreferenceForm";
 
 const Profile = () => {
     const [key, setKey] = useState('profile')
@@ -54,6 +55,12 @@ const Profile = () => {
                         {key === 'changePassword' && (
                             <>
                                 <ChangePasswordFrom />
+                            </>
+                        )}
+
+                        {key === 'preference' && (
+                            <>
+                                <PreferenceForm />
                             </>
                         )}
                     </Col>

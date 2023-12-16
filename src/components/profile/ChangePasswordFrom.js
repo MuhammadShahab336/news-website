@@ -2,6 +2,8 @@ import React from 'react';
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {useChangePasswordMutation, useUpdateProfileMutation} from "../../redux/services/userService";
+import toast from "react-hot-toast";
+import {successToast} from "../../utils/responseUtils";
 
 const ChangePasswordFrom = () => {
     const {
@@ -17,7 +19,7 @@ const ChangePasswordFrom = () => {
     const onChangePassword = async (data) => {
         await changePasswordRequest(data).unwrap()
             .then((res) => {
-
+                successToast(res?.message)
             })
             .catch((err) => {
                 console.log('err', err)

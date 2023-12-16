@@ -3,6 +3,8 @@ import {Form, Button, Row, Col, Container, Spinner} from "react-bootstrap";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useLoginMutation} from "../redux/services/authService";
 import {useForm} from "react-hook-form";
+import toast from "react-hot-toast";
+import {successToast} from "../utils/responseUtils";
 
 const SignIn = () => {
     const navigate = useNavigate()
@@ -19,6 +21,7 @@ const SignIn = () => {
     const onLogin = async (data) => {
         await loginRequest(data).unwrap()
             .then((res) => {
+                successToast(res?.message)
                 navigate('/profile')
             })
             .catch((err) => {

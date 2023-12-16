@@ -3,6 +3,8 @@ import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {useLoginMutation} from "../../redux/services/authService";
 import {useGetProfileQuery, useUpdateProfileMutation} from "../../redux/services/userService";
+import toast from "react-hot-toast";
+import {successToast} from "../../utils/responseUtils";
 
 const ProfileForm = () => {
     const {
@@ -13,14 +15,14 @@ const ProfileForm = () => {
         formState: {errors},
     } = useForm()
 
-    const { data ,isLoading: isProfileLoading, refetch } = useGetProfileQuery()
+    const { data ,isLoading: isProfileLoading, refetch, isFetching } = useGetProfileQuery()
     const [updateProfileRequest, { isLoading, error } ] = useUpdateProfileMutation()
 
     const onUpdateProfile = async (data) => {
         delete data.email
         await updateProfileRequest(data).unwrap()
             .then((res) => {
-
+                successToast(res?.message)
             })
             .catch((err) => {
                 console.log('err', err)
@@ -37,7 +39,7 @@ const ProfileForm = () => {
     //     refetch()
     // }, []);
 
-    if (isProfileLoading) return <i className="fa-light fa-spinner fa-spin" />;
+    if (isFetching) return <i className="fa-light fa-spinner fa-spin" />;
 
     return (
         <>
@@ -68,7 +70,6 @@ const ProfileForm = () => {
                     <Form.Control
                         type="text"
                         placeholder="Enter Lastname Here..."
-                        value={data?.data?.user?.last_name}
                         {...register('last_name', {
                             required: 'Last Name is Required',
                             value: data?.data?.user?.last_name

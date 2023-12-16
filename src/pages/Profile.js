@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Col, Container, Form, Nav, Row, Tab, Tabs} from "react-bootstrap";
+import ProfileForm from "../components/profile/ProfileForm";
 
 const Profile = () => {
     const [key, setKey] = useState('profile')
@@ -44,48 +45,7 @@ const Profile = () => {
 
                         {key === 'profile' && (
                             <>
-                                <Form>
-                                    <Form.Group className="mb-3 small">
-                                        <Form.Label className="">
-                                            First Name
-                                        </Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Enter Firstname Here..."
-                                            value="Muhammad"
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3 small">
-                                        <Form.Label className="">
-                                            Last Name
-                                        </Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Enter Lastname Here..."
-                                            value="Shahab"
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3 small">
-                                        <Form.Label className="t">
-                                            Email
-                                        </Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            disabled={true}
-                                            placeholder="Enter Email Here..."
-                                            value="shahab@yopmail.com"
-                                        />
-                                    </Form.Group>
-
-                                    <br />
-
-                                    <Button
-                                        variant="dark"
-                                        className="w-100 rounded-0 shadow-none"
-                                    >
-                                        Save Profile
-                                    </Button>
-                                </Form>
+                                <ProfileForm />
                             </>
                         )}
 

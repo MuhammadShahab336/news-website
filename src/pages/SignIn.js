@@ -1,8 +1,36 @@
 import React from 'react';
-import {Form, Button, Row, Col, Container} from "react-bootstrap";
+import {Form, Button, Row, Col, Container, Spinner} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {useLoginMutation} from "../redux/services/authService";
+import {useForm} from "react-hook-form";
 
 const SignIn = () => {
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        setError,
+        formState: {errors},
+    } = useForm()
+
+    const [loginRequest, { isLoading, error } ] = useLoginMutation()
+
+    const onLogin = async (data) => {
+        await loginRequest(data).unwrap()
+            .then((res) => {
+
+            })
+            .catch((err) => {
+                console.log('err', err)
+                if(err?.data?.errors) {
+                    Object.entries(err?.data?.errors)?.forEach(([key, value]) => {
+                        console.log('value', value[0])
+                        setError(key, { type: "custom", message: `${value[0]}` })
+                    })
+                }
+            })
+    }
+
     return (
         <Container>
             <Row className="vh-100 align-items-center justify-content-center">
@@ -10,14 +38,21 @@ const SignIn = () => {
                     <h1 className="text-center fw-bold">
                         Sign In
                     </h1>
-                    <Form>
+                    <Form onSubmit={handleSubmit(onLogin)}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                                 type="email"
                                 placeholder="Enter email"
                                 className="shadow-none"
+                                {...register('email', { required: 'Email is Required' } )}
+                                isInvalid={errors.email}
                             />
+                            {errors.email && (
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.email.message}
+                                </Form.Control.Feedback>
+                            )}
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -26,7 +61,14 @@ const SignIn = () => {
                                 type="password"
                                 placeholder="Enter Password"
                                 className="shadow-none"
+                                {...register('password', { required: 'Password is Required' } )}
+                                isInvalid={errors.password}
                             />
+                            {errors.password && (
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password.message}
+                                </Form.Control.Feedback>
+                            )}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
                             <Form.Check
@@ -35,8 +77,13 @@ const SignIn = () => {
                                 className="shadow-none"
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit" className="w-100">
-                            Sign In
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            className="w-100"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <i className="fa-light fa-spinner fa-spin" /> : 'Sign In'}
                         </Button>
                         <div className="mt-4">
                             <p className="small text-center">

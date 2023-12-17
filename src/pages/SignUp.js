@@ -43,7 +43,7 @@ const SignUp = () => {
                             <Form.Label>First Name</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="First Name Here..."
+                                placeholder="Enter First Name"
                                 className="shadow-none"
                                 {...register('first_name', { required: 'First Name is Required' } )}
                                 isInvalid={errors.first_name}
@@ -58,7 +58,7 @@ const SignUp = () => {
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="Last Name Here..."
+                                placeholder="Enter Last Name"
                                 className="shadow-none"
                                 {...register('last_name', { required: 'Last Name is Required' } )}
                                 isInvalid={errors.last_name}
@@ -71,10 +71,10 @@ const SignUp = () => {
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>Email address</Form.Label>
+                            <Form.Label>Email Address</Form.Label>
                             <Form.Control
                                 type="email"
-                                placeholder="Enter email"
+                                placeholder="Enter Email Address"
                                 className="shadow-none"
                                 {...register('email', {
                                     required: 'Email is Required',

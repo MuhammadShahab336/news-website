@@ -50,7 +50,7 @@ const ProfileForm = () => {
                     </Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter Firstname Here..."
+                        placeholder="Enter First Name"
                         {...register('first_name', {
                             required: 'First Name is Required',
                             value: data?.data?.user?.first_name
@@ -69,7 +69,7 @@ const ProfileForm = () => {
                     </Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter Lastname Here..."
+                        placeholder="Enter Last Name"
                         {...register('last_name', {
                             required: 'Last Name is Required',
                             value: data?.data?.user?.last_name

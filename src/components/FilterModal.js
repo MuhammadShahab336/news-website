@@ -15,7 +15,7 @@ const FilterModal = (props) => {
             >
                 <Modal.Header className="border-0" closeButton>
                     <Modal.Title className="h5 m-0">
-                        Filter News
+                        Filter Articles
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -77,7 +77,7 @@ const FilterModal = (props) => {
                         className="rounded-3 btn-sm me-auto"
                         onClick={handleClose}
                     >
-                        Apply Now
+                        Search
                     </Button>
                 </Modal.Footer>
             </Modal>

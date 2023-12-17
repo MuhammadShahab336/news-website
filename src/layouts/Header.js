@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../redux/slices/userSlice";
 
 const Header = () => {
-    const { isAuthenticated } = useSelector((state) => state.user)
+    const { isAuthenticated, user } = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -30,7 +30,7 @@ const Header = () => {
                             <Row className="g-0 align-items-center justify-content-end">
                                 <Col xs="auto">
                                     <NavDropdown
-                                        title={<p className="mb-0 d-inline">Shahab</p>}
+                                        title={<p className="mb-0 d-inline">{user?.first_name+' '+user?.last_name}</p>}
                                         id="basic-nav-dropdown"
                                     >
                                         <NavDropdown.Item onClick={() => navigate('/profile')}>

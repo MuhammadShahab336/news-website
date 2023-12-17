@@ -22,7 +22,7 @@ const SearchForm = () => {
                         <Col>
                             <Form.Control
                                 type="search"
-                                placeholder="Search News Here..."
+                                placeholder="Search Articles Here..."
                                 className="border-0 shadow-none bg-transparent"
                             />
                         </Col>

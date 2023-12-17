@@ -17,10 +17,15 @@ const NewsCard = () => {
                         Why Egypt doesn't want Palestinians in Gaza to cross the border
                     </Card.Title>
                     <Card.Text className="small">
-                        NPR - Scott Neuman
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    </Card.Text>
+                    <Card.Text className="small">
+                        <strong>Scott Neuman - 12/27/2023</strong>
                     </Card.Text>
                     <Link to="/" className="btn btn-dark text-white rounded-3">
-                        Go somewhere
+                        Read More
                     </Link>
                 </Card.Body>
             </Card>

@@ -41,8 +41,8 @@ const articleApi = newsApi.injectEndpoints({
             providesTags: ['Article'],
         }),
         getArticles: build.query({
-            query: () => ({
-                url: `${ARTICLES_ENDPOINT}`,
+            query: (data) => ({
+                url: `${data?.paginateUrl ? data?.paginateUrl?.replace('http', 'https') : ARTICLES_ENDPOINT}${data?.paginateUrl ? data?.query?.replace('?','&') : data?.query}`,
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

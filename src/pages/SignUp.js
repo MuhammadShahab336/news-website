@@ -1,10 +1,11 @@
 import React from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useRegisterMutation} from "../redux/services/authService";
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -18,7 +19,7 @@ const SignUp = () => {
     const onRegister = async (data) => {
         await registerRequest(data).unwrap()
             .then((res) => {
-
+                navigate('/signin')
             })
             .catch((err) => {
                 console.log('err', err)

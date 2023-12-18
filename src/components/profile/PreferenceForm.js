@@ -11,8 +11,7 @@ import {useChangePasswordMutation, useUpdatePreferencesMutation} from "../../red
 import {successToast} from "../../utils/responseUtils";
 import {useSelector} from "react-redux";
 
-const PreferenceForm = () => {
-    const { user } = useSelector((state) => state.user)
+const PreferenceForm = ({ user, isProfileFetching }) => {
     const {
         control,
         register,
@@ -23,28 +22,15 @@ const PreferenceForm = () => {
     } = useForm();
 
     const { data: category, isLoading: isCatLoading } = useGetCategoryQuery()
-    const { data: source } = useGetSourceQuery()
-    const { data: author } = useGetAuthorQuery()
+    const { data: source, isLoading: isSourceLoading } = useGetSourceQuery()
+    const { data: author, isLoading: isAuthorLoading } = useGetAuthorQuery()
 
     const [updatePreferencesRequest, { isLoading, error } ] = useUpdatePreferencesMutation()
-
-
-
-
-    // Options for the multi-select
-    const options = [
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
-        { label: 'Option 3', value: 'option3' },
-        // Add more options as needed
-    ];
 
     const onSubmit = async (data) => {
         data.categories = data.categories?.map((category) => category.value)
         data.sources = data.sources?.map((source) => source.value)
         data.authors = data.authors?.map((author) => author.value)
-
-        console.log(data);
 
         await updatePreferencesRequest(data).unwrap()
             .then((res) => {
@@ -64,103 +50,101 @@ const PreferenceForm = () => {
     };
 
 
-    if(isCatLoading) return ''
+    if(isCatLoading || isSourceLoading || isAuthorLoading || isProfileFetching) return <i className="fa-light fa-spinner fa-spin" />
 
 
     const categories = category?.data?.categories?.data
     const sources = source?.data?.sources?.data
     const authors = author?.data?.authors?.data
-    const us = categories?.filter((i) => (user?.preferred_categories?.length > 0 && JSON.parse(user?.preferred_categories)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))
-
-    console.log('sf', us,)
     return (
         <>
-            {/*
-            categories?.map((item) => ({label: item?.name, value: item?.id}))?.filter((i) => {
-                            return i?.id?.includes(JSON.parse(user?.preferred_sources)?.map((j) => (j?.id)))
-                        })
-            */}
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Group className="mb-3 small">
-                    <Form.Label className="">
-                        Categories
-                    </Form.Label>
-                    <Controller
-                        name="categories"
-                        control={control}
-                        defaultValue={categories?.filter((i) => (JSON.parse(user?.preferred_categories)?.length > 0 && JSON.parse(user?.preferred_categories)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))}
-                        rules={{ required: { value: true, message: 'This categories is required' } }}
-                        render={({ field }) => (
-                            <MultiSelect
-                                options={categories?.map((item) => ({label: item?.name, value: item?.id}))}
-                                value={field.value}
-                                onChange={(selected) => {
-                                    field.onChange(selected)
-                                }}
-                                labelledBy="Select"
-                            />
+                {categories?.length > 0 && (
+                    <Form.Group className="mb-3 small">
+                        <Form.Label className="">
+                            Categories
+                        </Form.Label>
+                        <Controller
+                            name="categories"
+                            control={control}
+                            defaultValue={JSON.parse(user?.preferred_categories)?.length > 0 ? categories?.filter((i) => (JSON.parse(user?.preferred_categories)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id})) : []}
+                            rules={{ required: { value: true, message: 'This categories is required' } }}
+                            render={({ field }) => (
+                                <MultiSelect
+                                    options={categories?.map((item) => ({label: item?.name, value: item?.id}))}
+                                    value={field.value}
+                                    onChange={(selected) => {
+                                        field.onChange(selected)
+                                    }}
+                                    labelledBy="Select"
+                                />
+                            )}
+                        />
+                        {errors.categories && (
+                            <Form.Text className="text-danger d-block ">
+                                {errors.categories.message}
+                            </Form.Text>
                         )}
-                    />
-                    {errors.categories && (
-                        <Form.Text className="text-danger d-block ">
-                            {errors.categories.message}
-                        </Form.Text>
-                    )}
-                </Form.Group>
+                    </Form.Group>
+                )}
 
-                <Form.Group className="mb-3 small">
-                    <Form.Label className="">
-                        Sources
-                    </Form.Label>
-                    <Controller
-                        name="sources"
-                        control={control}
-                        defaultValue={sources?.filter((i) => (JSON.parse(user?.preferred_sources)?.length > 0 && JSON.parse(user?.preferred_sources)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))}
-                        rules={{ required: { value: true, message: 'This sources is required' } }}
-                        render={({ field }) => (
-                            <MultiSelect
-                                options={sources?.map((item) => ({label: item?.name, value: item?.id}))}
-                                value={field.value}
-                                onChange={(selected) => {
-                                    field.onChange(selected)
-                                }}
-                                labelledBy="Select"
-                            />
+                {sources?.length > 0 && (
+                    <Form.Group className="mb-3 small">
+                        <Form.Label className="">
+                            Sources
+                        </Form.Label>
+                        <Controller
+                            name="sources"
+                            control={control}
+                            defaultValue={JSON.parse(user?.preferred_sources)?.length > 0 ? sources?.filter((i) => (JSON.parse(user?.preferred_sources)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id})) : []}
+                            rules={{ required: { value: true, message: 'This sources is required' } }}
+                            render={({ field }) => (
+                                <MultiSelect
+                                    options={sources?.map((item) => ({label: item?.name, value: item?.id}))}
+                                    value={field.value}
+                                    onChange={(selected) => {
+                                        field.onChange(selected)
+                                    }}
+                                    labelledBy="Select"
+                                />
+                            )}
+                        />
+                        {errors.sources && (
+                            <Form.Text className="text-danger d-block ">
+                                {errors.sources.message}
+                            </Form.Text>
                         )}
-                    />
-                    {errors.sources && (
-                        <Form.Text className="text-danger d-block ">
-                            {errors.sources.message}
-                        </Form.Text>
-                    )}
-                </Form.Group>
+                    </Form.Group>
+                )}
 
-                <Form.Group className="mb-3 small">
-                    <Form.Label className="">
-                        Authors
-                    </Form.Label>
-                    <Controller
-                        name="authors"
-                        control={control}
-                        defaultValue={authors?.filter((i) => (JSON.parse(user?.preferred_authors)?.length > 0 && JSON.parse(user?.preferred_authors)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))}
-                        rules={{ required: { value: true, message: 'This authors is required' } }}
-                        render={({ field }) => (
-                            <MultiSelect
-                                options={authors?.map((item) => ({label: item?.name, value: item?.id}))}
-                                value={field.value}
-                                onChange={(selected) => {
-                                    field.onChange(selected)
-                                }}
-                                labelledBy="Select"
-                            />
+                {authors?.length > 0 && (
+                    <Form.Group className="mb-3 small">
+                        <Form.Label className="">
+                            Authors
+                        </Form.Label>
+                        <Controller
+                            name="authors"
+                            control={control}
+                            defaultValue={JSON.parse(user?.preferred_authors)?.length > 0 ? authors?.filter((i) => (JSON.parse(user?.preferred_authors)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id})) : []}
+                            rules={{ required: { value: true, message: 'This authors is required' } }}
+                            render={({ field }) => (
+                                <MultiSelect
+                                    options={authors?.map((item) => ({label: item?.name, value: item?.id}))}
+                                    value={field.value}
+                                    onChange={(selected) => {
+                                        field.onChange(selected)
+                                    }}
+                                    labelledBy="Select"
+                                />
+                            )}
+                        />
+                        {errors.authors && (
+                            <Form.Text className="text-danger d-block ">
+                                {errors.authors.message}
+                            </Form.Text>
                         )}
-                    />
-                    {errors.authors && (
-                        <Form.Text className="text-danger d-block ">
-                            {errors.authors.message}
-                        </Form.Text>
-                    )}
-                </Form.Group>
+                    </Form.Group>
+                )}
 
                 <Button
                     variant="dark"

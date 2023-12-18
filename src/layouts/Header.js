@@ -2,10 +2,10 @@ import React from 'react';
 import {Button, Col, Container, NavDropdown, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../redux/slices/userSlice";
+import {logout} from "../redux/slices/authSlice";
 
 const Header = () => {
-    const { isAuthenticated, user } = useSelector((state) => state.user)
+    const { isAuthenticated, user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 

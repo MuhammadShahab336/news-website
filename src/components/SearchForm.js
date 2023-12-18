@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useDeferredValue, useState} from 'react';
 import {Button, Col, Container, Row, Form} from "react-bootstrap";
 import Collapse from 'react-bootstrap/Collapse';
 import FilterModal from "./FilterModal";
+import {useSelector} from "react-redux";
 
-const SearchForm = () => {
+const SearchForm = ({ setQuery }) => {
+    const { preferred_authors, preferred_categories,preferred_sources } = useSelector((state) => state.auth?.user)
     const [show, setShow] = useState(false);
 
     const handleShow = () => {
@@ -12,6 +14,14 @@ const SearchForm = () => {
 
     const handleClose = () => {
         setShow(false);
+    }
+
+    const handleSearch = (e) => {
+        if(e.target.value.length > 0) {
+            setQuery(`?q=${e.target.value}`)
+        } else {
+            setQuery(' ')
+        }
     }
 
     return (
@@ -24,6 +34,7 @@ const SearchForm = () => {
                                 type="search"
                                 placeholder="Search Articles Here..."
                                 className="border-0 shadow-none bg-transparent"
+                                onChange={handleSearch}
                             />
                         </Col>
                         <Col xs="auto" className="align-self-stretch">
@@ -49,10 +60,16 @@ const SearchForm = () => {
                 </Col>
             </Container>
 
-            <FilterModal
-                show={show}
-                handleClose={handleClose}
-            />
+            {show && (
+                <FilterModal
+                    show={show}
+                    handleClose={handleClose}
+                    setQuery={setQuery}
+                    preferred_categories={JSON.parse(preferred_categories)}
+                    preferred_sources={JSON.parse(preferred_sources)}
+                    preferred_authors={JSON.parse(preferred_authors)}
+                />
+            )}
         </>
     );
 };

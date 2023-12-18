@@ -18,7 +18,7 @@ const AppRoutes = () => {
                     <Route path="/" element={<MainLayout />}>
                         <Route
                             index={true}
-                            element={<Home />}
+                            element={<PrivateRoute component={Home} />}
                         />
                         <Route
                             path="/profile"

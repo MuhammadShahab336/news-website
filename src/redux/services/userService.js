@@ -3,11 +3,11 @@ import {
     CHANGE_PROFILE_ENDPOINT,
     LOGIN_ENDPOINT,
     PROFILE_ENDPOINT,
-    REGISTER_ENDPOINT,
+    REGISTER_ENDPOINT, UPDATE_PREFERENCE_ENDPOINT,
     UPDATE_PROFILE_ENDPOINT
 } from "./apiConstants";
 
-const authApi = newsApi.injectEndpoints({
+export const userApi = newsApi.injectEndpoints({
     endpoints: (build) => ({
         getProfile: build.query({
             query: () => ({
@@ -41,8 +41,19 @@ const authApi = newsApi.injectEndpoints({
             }),
             invalidatesTags: ['Profile'],
         }),
+        updatePreferences: build.mutation({
+            query: (form) => ({
+                url: `${UPDATE_PREFERENCE_ENDPOINT}`,
+                method: 'POST',
+                body: form,
+                headers: {
+                    'Accept': 'application/json',
+                },
+            }),
+            invalidatesTags: ['Profile'],
+        }),
     }),
     overrideExisting: false,
 })
 
-export const { useGetProfileQuery, useUpdateProfileMutation, useChangePasswordMutation } = authApi
+export const { useGetProfileQuery, useUpdateProfileMutation, useChangePasswordMutation, useUpdatePreferencesMutation } = userApi

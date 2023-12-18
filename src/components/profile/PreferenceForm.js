@@ -1,15 +1,35 @@
 import React from 'react';
-import {Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import { useForm, Controller } from 'react-hook-form';
 import { MultiSelect } from 'react-multi-select-component';
+import {
+    useGetAuthorQuery,
+    useGetCategoryQuery,
+    useGetSourceQuery,
+} from "../../redux/services/articleService";
+import {useChangePasswordMutation, useUpdatePreferencesMutation} from "../../redux/services/userService";
+import {successToast} from "../../utils/responseUtils";
+import {useSelector} from "react-redux";
 
 const PreferenceForm = () => {
+    const { user } = useSelector((state) => state.user)
     const {
         control,
+        register,
         handleSubmit,
         setValue,
-        formState: { errors },
+        setError,
+        formState: {errors},
     } = useForm();
+
+    const { data: category, isLoading: isCatLoading } = useGetCategoryQuery()
+    const { data: source } = useGetSourceQuery()
+    const { data: author } = useGetAuthorQuery()
+
+    const [updatePreferencesRequest, { isLoading, error } ] = useUpdatePreferencesMutation()
+
+
+
 
     // Options for the multi-select
     const options = [
@@ -19,28 +39,60 @@ const PreferenceForm = () => {
         // Add more options as needed
     ];
 
-    const onSubmit = (data) => {
-        // Handle form submission logic here
+    const onSubmit = async (data) => {
+        data.categories = data.categories?.map((category) => category.value)
+        data.sources = data.sources?.map((source) => source.value)
+        data.authors = data.authors?.map((author) => author.value)
+
         console.log(data);
+
+        await updatePreferencesRequest(data).unwrap()
+            .then((res) => {
+                successToast(res?.message)
+            })
+            .catch((err) => {
+                console.log('err', err)
+                if(err?.data?.errors) {
+                    Object.entries(err?.data?.errors)?.forEach(([key, value]) => {
+                        console.log('value', value[0])
+                        setError(key, { type: "custom", message: `${value[0]}` })
+                    })
+                } else if(err?.data?.message) {
+                    setError('current_password', { type: "custom", message: `${err?.data?.message}` })
+                }
+            })
     };
 
-    console.log('errors', errors)
 
+    if(isCatLoading) return ''
+
+
+    const categories = category?.data?.categories?.data
+    const sources = source?.data?.sources?.data
+    const authors = author?.data?.authors?.data
+    const us = categories?.filter((i) => (user?.preferred_categories?.length > 0 && JSON.parse(user?.preferred_categories)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))
+
+    console.log('sf', us,)
     return (
         <>
+            {/*
+            categories?.map((item) => ({label: item?.name, value: item?.id}))?.filter((i) => {
+                            return i?.id?.includes(JSON.parse(user?.preferred_sources)?.map((j) => (j?.id)))
+                        })
+            */}
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="mb-3 small">
                     <Form.Label className="">
-                        Current Password
+                        Categories
                     </Form.Label>
                     <Controller
-                        name="selectedOptions"
+                        name="categories"
                         control={control}
-                        defaultValue={[]}
-                        rules={{ required: { value: true, message: 'This df is required' } }}
+                        defaultValue={categories?.filter((i) => (JSON.parse(user?.preferred_categories)?.length > 0 && JSON.parse(user?.preferred_categories)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))}
+                        rules={{ required: { value: true, message: 'This categories is required' } }}
                         render={({ field }) => (
                             <MultiSelect
-                                options={options}
+                                options={categories?.map((item) => ({label: item?.name, value: item?.id}))}
                                 value={field.value}
                                 onChange={(selected) => {
                                     field.onChange(selected)
@@ -49,15 +101,75 @@ const PreferenceForm = () => {
                             />
                         )}
                     />
-                    {errors.selectedOptions && (
+                    {errors.categories && (
                         <Form.Text className="text-danger d-block ">
-                            {errors.selectedOptions.message}
+                            {errors.categories.message}
                         </Form.Text>
                     )}
-
-                    <button type="submit">Submit</button>
-
                 </Form.Group>
+
+                <Form.Group className="mb-3 small">
+                    <Form.Label className="">
+                        Sources
+                    </Form.Label>
+                    <Controller
+                        name="sources"
+                        control={control}
+                        defaultValue={sources?.filter((i) => (JSON.parse(user?.preferred_sources)?.length > 0 && JSON.parse(user?.preferred_sources)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))}
+                        rules={{ required: { value: true, message: 'This sources is required' } }}
+                        render={({ field }) => (
+                            <MultiSelect
+                                options={sources?.map((item) => ({label: item?.name, value: item?.id}))}
+                                value={field.value}
+                                onChange={(selected) => {
+                                    field.onChange(selected)
+                                }}
+                                labelledBy="Select"
+                            />
+                        )}
+                    />
+                    {errors.sources && (
+                        <Form.Text className="text-danger d-block ">
+                            {errors.sources.message}
+                        </Form.Text>
+                    )}
+                </Form.Group>
+
+                <Form.Group className="mb-3 small">
+                    <Form.Label className="">
+                        Authors
+                    </Form.Label>
+                    <Controller
+                        name="authors"
+                        control={control}
+                        defaultValue={authors?.filter((i) => (JSON.parse(user?.preferred_authors)?.length > 0 && JSON.parse(user?.preferred_authors)?.includes(i?.id)))?.map((j) => ({label: j?.name, value: j?.id}))}
+                        rules={{ required: { value: true, message: 'This authors is required' } }}
+                        render={({ field }) => (
+                            <MultiSelect
+                                options={authors?.map((item) => ({label: item?.name, value: item?.id}))}
+                                value={field.value}
+                                onChange={(selected) => {
+                                    field.onChange(selected)
+                                }}
+                                labelledBy="Select"
+                            />
+                        )}
+                    />
+                    {errors.authors && (
+                        <Form.Text className="text-danger d-block ">
+                            {errors.authors.message}
+                        </Form.Text>
+                    )}
+                </Form.Group>
+
+                <Button
+                    variant="dark"
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-100 rounded-0 shadow-none"
+                >
+                    {isLoading ? <i className="fa-light fa-spinner fa-spin" /> : 'Save Preference'}
+                </Button>
             </Form>
         </>
     );

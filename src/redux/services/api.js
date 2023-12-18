@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const newsApi = createApi({
     baseQuery: baseQuery,
-    tagTypes: ['Profile'],
+    tagTypes: ['Profile', 'Article'],
 
     endpoints: () => ({}),
 })

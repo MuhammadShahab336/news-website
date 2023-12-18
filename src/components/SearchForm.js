@@ -18,7 +18,7 @@ const SearchForm = () => {
         <>
             <Container fluid className="mt-5 d-flex justify-content-center">
                 <Col lg={6} xs={12}>
-                    <Row className="g-0 p-2 rounded-3 shadow-sm mx-auto bg-light border align-items-center">
+                    <Row className="g-0 p-2 rounded-0 shadow-sm mx-auto bg-light border align-items-center">
                         <Col>
                             <Form.Control
                                 type="search"

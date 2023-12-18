@@ -9,3 +9,10 @@ export const successToast = (message) => {
         })
     }
 }
+export const dateFormat = (date) => {
+    const dateObj = new Date(date)
+    const month = dateObj.toLocaleString('default', { month: 'short' });
+    const day = dateObj.getDate()
+    const year = dateObj.getFullYear()
+    return `${day}/${month}/${year}`
+}

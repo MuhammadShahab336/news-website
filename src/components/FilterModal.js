@@ -1,8 +1,20 @@
 import React from 'react';
 import {Button, Form, Modal, Col, Row} from "react-bootstrap";
+import {useGetAuthorQuery, useGetCategoryQuery, useGetSourceQuery} from "../redux/services/articleService";
 
 const FilterModal = (props) => {
     const {show, handleClose} = props;
+
+    const { data: category, isLoading } = useGetCategoryQuery()
+    const { data: source } = useGetSourceQuery()
+    const { data: author } = useGetAuthorQuery()
+
+
+    if(isLoading) return ''
+
+    const categories = category?.data?.categories?.data
+    const sources = source?.data?.sources?.data
+    const authors = author?.data?.authors?.data
 
     return (
         <>
@@ -12,6 +24,7 @@ const FilterModal = (props) => {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
+                className="rounded-0"
             >
                 <Modal.Header className="border-0" closeButton>
                     <Modal.Title className="h5 m-0">
@@ -20,53 +33,64 @@ const FilterModal = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group className="mb-0 small">
-                            <Form.Label className="fw-bold small">
+                        <Form.Group className="mb-0">
+                            <Form.Label className="fw-bold">
                                 Category
                             </Form.Label>
                             <Row>
-                                {['checkbox 1', 'checkbox 2'].map((type) => (
+                                {categories?.map((category) => (
                                     <Col
                                         lg="auto"
-                                        key={`default-${type}`}
+                                        key={`cat-${category?.id}`}
                                         className="mb-3"
                                     >
                                         <Form.Check // prettier-ignore
                                             type="checkbox"
-                                            id={`default-${type}`}
-                                            label={`${type}`}
+                                            id={`cat-${category?.id}`}
+                                            label={`${category?.name}`}
                                         />
                                     </Col>
                                 ))}
                             </Row>
                         </Form.Group>
-                        <Form.Group className="mb-0 small">
-                            <Form.Label className="fw-bold small">
+                        <Form.Group className="mb-0">
+                            <Form.Label className="fw-bold">
                                 Sources
                             </Form.Label>
                             <Row>
-                                {['checkbox 1', 'checkbox 2'].map((type) => (
+                                {sources?.map((source) => (
                                     <Col
                                         lg="auto"
-                                        key={`default-${type}`}
+                                        key={`source-${source?.id}`}
                                         className="mb-3"
                                     >
                                         <Form.Check // prettier-ignore
                                             type="checkbox"
-                                            id={`default-${type}`}
-                                            label={`${type}`}
+                                            id={`source-${source?.id}`}
+                                            label={`${source?.name}`}
                                         />
                                     </Col>
                                 ))}
                             </Row>
                         </Form.Group>
-                        <Form.Group className="mb-0 small">
-                            <Form.Label className="fw-bold small">
+                        <Form.Group className="mb-0">
+                            <Form.Label className="fw-bold">
+                                Author
+                            </Form.Label>
+                            <Form.Select>
+                                <option value="">Please Selecct</option>
+                                {authors?.map((author) => (
+                                    <option value={`${author?.id}`}>{author?.name}</option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="mb-0">
+                            <Form.Label className="fw-bold">
                                 Date
                             </Form.Label>
                             <Form.Control
                                 type="date"
-                                className="shadow-none form-control-sm w-auto"
+                                className="shadow-none"
                             />
                         </Form.Group>
                     </Form>
@@ -74,7 +98,7 @@ const FilterModal = (props) => {
                 <Modal.Footer className="border-0">
                     <Button
                         variant="dark"
-                        className="rounded-3 btn-sm me-auto"
+                        className="rounded-3 me-auto"
                         onClick={handleClose}
                     >
                         Search

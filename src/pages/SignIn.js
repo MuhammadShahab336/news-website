@@ -22,13 +22,12 @@ const SignIn = () => {
         await loginRequest(data).unwrap()
             .then((res) => {
                 successToast(res?.message)
-                navigate('/profile')
+                navigate('/')
             })
             .catch((err) => {
                 console.log('err', err)
                 if(err?.data?.errors) {
                     Object.entries(err?.data?.errors)?.forEach(([key, value]) => {
-                        console.log('value', value[0])
                         setError(key, { type: "custom", message: `${value[0]}` })
                     })
                 }

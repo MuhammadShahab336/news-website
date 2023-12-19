@@ -1,15 +1,13 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button, Form, Modal, Col, Row} from "react-bootstrap";
-import {useGetAuthorQuery, useGetCategoryQuery, useGetSourceQuery} from "../redux/services/articleService";
-import {Controller, useForm} from "react-hook-form";
-import {dateFormatReverse} from "../utils/responseUtils";
-import {useSelector} from "react-redux";
+import {useGetAuthorsQuery, useGetCategoriesQuery, useGetSourcesQuery} from "../../redux/services/articleService";
+import {useForm} from "react-hook-form";
+import {dateFormatReverse} from "../../utils/responseUtils";
 
 const FilterModal = (props) => {
     const {show, handleClose, setQuery, preferred_categories, preferred_sources, preferred_authors} = props;
 
     const {
-        control,
         register,
         handleSubmit,
         setValue,
@@ -17,9 +15,9 @@ const FilterModal = (props) => {
         formState: {errors},
     } = useForm()
 
-    const { data: category, isLoading : isCategoryLoading } = useGetCategoryQuery()
-    const { data: source, isLoading: isSourceLoading } = useGetSourceQuery()
-    const { data: author, isLoading: isAuthorLoading } = useGetAuthorQuery()
+    const { data: category, isLoading : isCategoryLoading } = useGetCategoriesQuery()
+    const { data: source, isLoading: isSourceLoading } = useGetSourcesQuery()
+    const { data: author, isLoading: isAuthorLoading } = useGetAuthorsQuery()
 
     const onSearch = (data) => {
         // data.categories = data.categories?.join(',')
@@ -48,7 +46,7 @@ const FilterModal = (props) => {
     console.log('preferred_categories;o', preferred_categories)
 
 
-    if(isCategoryLoading || isSourceLoading || isAuthorLoading) return <i className="fa-light fa-spinner fa-spin" />
+    if(isCategoryLoading || isSourceLoading || isAuthorLoading) return <p className="text-center"><i className="fa-light fa-spinner fa-spin" /></p>
 
     const categories = category?.data?.categories?.data
     const sources = source?.data?.sources?.data

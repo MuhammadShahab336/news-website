@@ -1,9 +1,8 @@
 import React from 'react';
-import {Form, Button, Row, Col, Container, Spinner} from "react-bootstrap";
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import {Form, Button, Row, Col, Container} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
 import {useLoginMutation} from "../redux/services/authService";
 import {useForm} from "react-hook-form";
-import toast from "react-hot-toast";
 import {successToast} from "../utils/responseUtils";
 
 const SignIn = () => {

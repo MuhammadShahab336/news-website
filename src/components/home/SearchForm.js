@@ -1,11 +1,11 @@
-import React, {useDeferredValue, useState} from 'react';
-import {Button, Col, Container, Row, Form} from "react-bootstrap";
-import Collapse from 'react-bootstrap/Collapse';
-import FilterModal from "./FilterModal";
+import React, {useState} from 'react';
+import {Col, Container, Row, Form} from "react-bootstrap";
 import {useSelector} from "react-redux";
+import {FilterModal} from "./index";
 
 const SearchForm = ({ setQuery }) => {
     const { preferred_authors, preferred_categories,preferred_sources } = useSelector((state) => state.auth?.user)
+
     const [show, setShow] = useState(false);
 
     const handleShow = () => {
@@ -32,7 +32,7 @@ const SearchForm = ({ setQuery }) => {
                         <Col>
                             <Form.Control
                                 type="search"
-                                placeholder="Search Articles Here..."
+                                placeholder="Search Article Here..."
                                 className="border-0 shadow-none bg-transparent"
                                 onChange={handleSearch}
                             />

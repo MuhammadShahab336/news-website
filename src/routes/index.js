@@ -2,12 +2,13 @@ import React, {lazy} from 'react';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
-import MainLayout from "../layouts/MainLayout";
+import PublicRoute from "./PublicRoute";
+import {MainLayout} from "../components/layouts";
 
-const SignIn = lazy(() => import('../pages/SignIn'));
-const SignUp = lazy(() => import('../pages/SignUp'));
-const Profile = lazy(() => import('../pages/Profile'));
-const Home = lazy(() => import('../pages/Home'));
+const SignIn = lazy(() => import('../pages'));
+const SignUp = lazy(() => import('../pages'));
+const Profile = lazy(() => import('../pages'));
+const Home = lazy(() => import('../pages'));
 
 
 const AppRoutes = () => {
@@ -26,11 +27,11 @@ const AppRoutes = () => {
                         />
                         <Route
                             path="/signin"
-                            element={<SignIn />}
+                            element={<PublicRoute component={SignIn} />}
                         />
                         <Route
                             path="/signup"
-                            element={<SignUp />}
+                            element={<PublicRoute component={SignUp} />}
                         />
                         <Route
                             path="*"

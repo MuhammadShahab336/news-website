@@ -14,7 +14,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
     [newsApi.reducerPath]: newsApi.reducer,
     auth: authReducer,
-    // auth: authReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -28,4 +27,5 @@ export const store = configureStore({
 })
 
 export const persistor = persistStore(store)
+
 setupListeners(store.dispatch)

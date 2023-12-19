@@ -1,9 +1,8 @@
-import { newsApi } from './api'
+import {newsApi} from './api'
 import {
     CHANGE_PROFILE_ENDPOINT,
-    LOGIN_ENDPOINT,
     PROFILE_ENDPOINT,
-    REGISTER_ENDPOINT, UPDATE_PREFERENCE_ENDPOINT,
+    UPDATE_PREFERENCES_ENDPOINT,
     UPDATE_PROFILE_ENDPOINT
 } from "./apiConstants";
 
@@ -43,7 +42,7 @@ export const userApi = newsApi.injectEndpoints({
         }),
         updatePreferences: build.mutation({
             query: (form) => ({
-                url: `${UPDATE_PREFERENCE_ENDPOINT}`,
+                url: `${UPDATE_PREFERENCES_ENDPOINT}`,
                 method: 'POST',
                 body: form,
                 headers: {
@@ -56,4 +55,9 @@ export const userApi = newsApi.injectEndpoints({
     overrideExisting: false,
 })
 
-export const { useGetProfileQuery, useUpdateProfileMutation, useChangePasswordMutation, useUpdatePreferencesMutation } = userApi
+export const {
+    useGetProfileQuery,
+    useUpdateProfileMutation,
+    useChangePasswordMutation,
+    useUpdatePreferencesMutation
+} = userApi

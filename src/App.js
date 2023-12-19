@@ -1,8 +1,8 @@
 import {Suspense} from "react";
 import './assets/styles/main.scss';
 import AppRoutes from "./routes";
-import MainLoader from "./components/loaders/MainLoader";
 import {Toaster} from "react-hot-toast";
+import {MainLoader} from "./components/loaders";
 
 function App() {
   return (

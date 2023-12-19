@@ -1,8 +1,7 @@
 import React from 'react';
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
-import {useChangePasswordMutation, useUpdateProfileMutation} from "../../redux/services/userService";
-import toast from "react-hot-toast";
+import {useChangePasswordMutation} from "../../redux/services/userService";
 import {successToast} from "../../utils/responseUtils";
 
 const ChangePasswordFrom = () => {

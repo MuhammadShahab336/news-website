@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {Button, Col, Container, Form, Nav, Row, Tab, Tabs} from "react-bootstrap";
-import ProfileForm from "../components/profile/ProfileForm";
-import ChangePasswordFrom from "../components/profile/ChangePasswordFrom";
-import PreferenceForm from "../components/profile/PreferenceForm";
+import {Col, Container, Nav, Row} from "react-bootstrap";
 import {useGetProfileQuery} from "../redux/services/userService";
+import {ChangePasswordFrom, PreferenceForm, ProfileForm} from "../components/profile";
 
 const Profile = () => {
     const { data , isFetching } = useGetProfileQuery()

@@ -1,15 +1,14 @@
 import React, {useDeferredValue, useState} from 'react';
-import {Link} from "react-router-dom";
-import SearchForm from "../components/SearchForm";
-import ArticleCards from "../components/ArticleCards";
 import {Container} from "react-bootstrap";
 import {useGetArticlesQuery} from "../redux/services/articleService";
+import {ArticleSection, SearchForm} from "../components/home";
 
 const Home = () => {
     const [query, setQuery] = useState('')
     const [paginateUrl, setPaginateUrl] = useState('')
     const deferredQuery = useDeferredValue(query);
-    const { data, isFetching, refetch } = useGetArticlesQuery({paginateUrl, query})
+
+    const { data, isFetching, refetch } = useGetArticlesQuery({paginateUrl, deferredQuery})
 
     return (
         <>
@@ -23,7 +22,7 @@ const Home = () => {
                 setQuery={setQuery}
             />
 
-            <ArticleCards
+            <ArticleSection
                 data={data}
                 isLoading={isFetching}
                 refetch={refetch}

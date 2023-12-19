@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Col, Container, Pagination, Row} from "react-bootstrap";
-import NewsCard from "./NewsCard";
+import {Article} from "./index";
 
-const ArticleCards = ({ data, isLoading, refetch, setPaginateUrl }) => {
+const ArticleSection = ({ data, isLoading, refetch, setPaginateUrl }) => {
 
     // useEffect(() => {
     //     refetch()
     // }, [])
-
 
     if(isLoading) return <p className="text-center mt-5"><i className="fa-light fa-spinner fa-spin" /></p>
 
@@ -20,7 +19,7 @@ const ArticleCards = ({ data, isLoading, refetch, setPaginateUrl }) => {
                     <Row className="g-3">
                         {articles?.map((article) => (
                             <Col lg={4} key={article?.id}>
-                                <NewsCard article={article} />
+                                <Article article={article} />
                             </Col>
                         ))}
                     </Row>
@@ -74,4 +73,4 @@ const ArticleCards = ({ data, isLoading, refetch, setPaginateUrl }) => {
     );
 };
 
-export default ArticleCards;
+export default ArticleSection;

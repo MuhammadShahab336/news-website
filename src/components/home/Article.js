@@ -2,9 +2,9 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import ArticleImage from "./ArticleImage";
-import {dateFormat} from "../utils/responseUtils";
+import {dateFormat} from "../../utils/responseUtils";
 
-const NewsCard = ({ article }) => {
+const Article = ({ article }) => {
     return (
         <>
             <Card className="shadow-none border-0 rounded-0 h-100">
@@ -32,4 +32,4 @@ const NewsCard = ({ article }) => {
     );
 };
 
-export default NewsCard;
+export default Article;

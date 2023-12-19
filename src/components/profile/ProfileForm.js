@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
-import {useLoginMutation} from "../../redux/services/authService";
-import {useGetProfileQuery, useUpdateProfileMutation} from "../../redux/services/userService";
-import toast from "react-hot-toast";
+import {useUpdateProfileMutation} from "../../redux/services/userService";
 import {successToast} from "../../utils/responseUtils";
 
 const ProfileForm = ({ user, isProfileFetching }) => {
@@ -33,10 +31,6 @@ const ProfileForm = ({ user, isProfileFetching }) => {
                 }
             })
     }
-
-    // useEffect(() => {
-    //     refetch()
-    // }, []);
 
     if (isProfileFetching) return <i className="fa-light fa-spinner fa-spin" />
 

@@ -1,18 +1,16 @@
-import { newsApi } from './api'
+import {newsApi} from './api'
 import {
-    ARTICLE_AUTHOR_ENDPOINT,
-    ARTICLE_CATEGORY_ENDPOINT,
-    ARTICLE_SOURCE_ENDPOINT,
+    ARTICLE_AUTHORS_ENDPOINT,
+    ARTICLE_CATEGORIES_ENDPOINT,
+    ARTICLE_SOURCES_ENDPOINT,
     ARTICLES_ENDPOINT,
-    CHANGE_PROFILE_ENDPOINT,
-    UPDATE_PREFERENCE_ENDPOINT,
 } from "./apiConstants";
 
 const articleApi = newsApi.injectEndpoints({
     endpoints: (build) => ({
-        getCategory: build.query({
+        getCategories: build.query({
             query: () => ({
-                url: `${ARTICLE_CATEGORY_ENDPOINT}`,
+                url: `${ARTICLE_CATEGORIES_ENDPOINT}`,
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -20,9 +18,9 @@ const articleApi = newsApi.injectEndpoints({
             }),
             providesTags: ['Article'],
         }),
-        getSource: build.query({
+        getSources: build.query({
             query: () => ({
-                url: `${ARTICLE_SOURCE_ENDPOINT}`,
+                url: `${ARTICLE_SOURCES_ENDPOINT}`,
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -30,9 +28,9 @@ const articleApi = newsApi.injectEndpoints({
             }),
             providesTags: ['Article'],
         }),
-        getAuthor: build.query({
+        getAuthors: build.query({
             query: () => ({
-                url: `${ARTICLE_AUTHOR_ENDPOINT}`,
+                url: `${ARTICLE_AUTHORS_ENDPOINT}`,
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -42,7 +40,7 @@ const articleApi = newsApi.injectEndpoints({
         }),
         getArticles: build.query({
             query: (data) => ({
-                url: `${data?.paginateUrl ? data?.paginateUrl?.replace('http', 'https') : ARTICLES_ENDPOINT}${data?.paginateUrl ? data?.query?.replace('?','&') : data?.query}`,
+                url: `${data?.paginateUrl ? data?.paginateUrl?.replace('http', 'https') : ARTICLES_ENDPOINT}${data?.paginateUrl ? data?.deferredQuery?.replace('?', '&') : data?.deferredQuery}`,
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -54,4 +52,4 @@ const articleApi = newsApi.injectEndpoints({
     overrideExisting: false,
 })
 
-export const { useGetCategoryQuery, useGetSourceQuery, useGetAuthorQuery, useGetArticlesQuery } = articleApi
+export const {useGetCategoriesQuery, useGetSourcesQuery, useGetAuthorsQuery, useGetArticlesQuery} = articleApi

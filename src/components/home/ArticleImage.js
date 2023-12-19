@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card} from "react-bootstrap";
-import placeholderImage from "../assets/images/no-image-found.png";
+import placeholderImage from "../../assets/images/no-image-found.png";
 
 const ArticleImage = ({ src }) => {
 

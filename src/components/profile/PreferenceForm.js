@@ -3,13 +3,12 @@ import {Button, Form} from "react-bootstrap";
 import { useForm, Controller } from 'react-hook-form';
 import { MultiSelect } from 'react-multi-select-component';
 import {
-    useGetAuthorQuery,
-    useGetCategoryQuery,
-    useGetSourceQuery,
+    useGetAuthorsQuery,
+    useGetCategoriesQuery,
+    useGetSourcesQuery,
 } from "../../redux/services/articleService";
-import {useChangePasswordMutation, useUpdatePreferencesMutation} from "../../redux/services/userService";
+import {useUpdatePreferencesMutation} from "../../redux/services/userService";
 import {successToast} from "../../utils/responseUtils";
-import {useSelector} from "react-redux";
 
 const PreferenceForm = ({ user, isProfileFetching }) => {
     const {
@@ -21,9 +20,9 @@ const PreferenceForm = ({ user, isProfileFetching }) => {
         formState: {errors},
     } = useForm();
 
-    const { data: category, isLoading: isCatLoading } = useGetCategoryQuery()
-    const { data: source, isLoading: isSourceLoading } = useGetSourceQuery()
-    const { data: author, isLoading: isAuthorLoading } = useGetAuthorQuery()
+    const { data: category, isLoading: isCatLoading } = useGetCategoriesQuery()
+    const { data: source, isLoading: isSourceLoading } = useGetSourcesQuery()
+    const { data: author, isLoading: isAuthorLoading } = useGetAuthorsQuery()
 
     const [updatePreferencesRequest, { isLoading, error } ] = useUpdatePreferencesMutation()
 
@@ -43,8 +42,6 @@ const PreferenceForm = ({ user, isProfileFetching }) => {
                         console.log('value', value[0])
                         setError(key, { type: "custom", message: `${value[0]}` })
                     })
-                } else if(err?.data?.message) {
-                    setError('current_password', { type: "custom", message: `${err?.data?.message}` })
                 }
             })
     };

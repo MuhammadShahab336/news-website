@@ -6,7 +6,7 @@ import {useGetProfileQuery, useUpdateProfileMutation} from "../../redux/services
 import toast from "react-hot-toast";
 import {successToast} from "../../utils/responseUtils";
 
-const ProfileForm = () => {
+const ProfileForm = ({ user, isProfileFetching }) => {
     const {
         register,
         handleSubmit,
@@ -15,7 +15,6 @@ const ProfileForm = () => {
         formState: {errors},
     } = useForm()
 
-    const { data ,isLoading: isProfileLoading, refetch, isFetching } = useGetProfileQuery()
     const [updateProfileRequest, { isLoading, error } ] = useUpdateProfileMutation()
 
     const onUpdateProfile = async (data) => {
@@ -39,7 +38,7 @@ const ProfileForm = () => {
     //     refetch()
     // }, []);
 
-    if (isFetching) return <i className="fa-light fa-spinner fa-spin" />;
+    if (isProfileFetching) return <i className="fa-light fa-spinner fa-spin" />
 
     return (
         <>
@@ -53,7 +52,7 @@ const ProfileForm = () => {
                         placeholder="Enter First Name"
                         {...register('first_name', {
                             required: 'First Name is Required',
-                            value: data?.data?.user?.first_name
+                            value: user?.first_name
                         })}
                         isInvalid={errors.first_name}
                     />
@@ -72,7 +71,7 @@ const ProfileForm = () => {
                         placeholder="Enter Last Name"
                         {...register('last_name', {
                             required: 'Last Name is Required',
-                            value: data?.data?.user?.last_name
+                            value: user?.last_name
                         })}
                         isInvalid={errors.last_name}
                     />
@@ -90,7 +89,7 @@ const ProfileForm = () => {
                         type="email"
                         disabled={true}
                         placeholder="Enter Email Here..."
-                        value={data?.data?.user?.email || ''}
+                        value={user?.email || ''}
                         readOnly={true}
                     />
                 </Form.Group>

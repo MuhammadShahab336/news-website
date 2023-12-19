@@ -16,3 +16,10 @@ export const dateFormat = (date) => {
     const year = dateObj.getFullYear()
     return `${day}/${month}/${year}`
 }
+export const dateFormatReverse = (date) => {
+    const dateObj = new Date(date)
+    const month = dateObj.toLocaleString('default', { month: 'short' });
+    const day = dateObj.getDate()
+    const year = dateObj.getFullYear()
+    return `${year}-${month}-${day}`
+}

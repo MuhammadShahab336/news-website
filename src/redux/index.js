@@ -3,17 +3,17 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 import { newsApi } from './services/api'
-import userReducer from './slices/userSlice'
+import authReducer from './slices/authSlice'
 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: [''],
+    blacklist: ['api'],
 }
 
 const rootReducer = combineReducers({
     [newsApi.reducerPath]: newsApi.reducer,
-    user: userReducer,
+    auth: authReducer,
     // auth: authReducer,
 })
 

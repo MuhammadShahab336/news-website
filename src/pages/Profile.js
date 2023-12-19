@@ -3,8 +3,10 @@ import {Button, Col, Container, Form, Nav, Row, Tab, Tabs} from "react-bootstrap
 import ProfileForm from "../components/profile/ProfileForm";
 import ChangePasswordFrom from "../components/profile/ChangePasswordFrom";
 import PreferenceForm from "../components/profile/PreferenceForm";
+import {useGetProfileQuery} from "../redux/services/userService";
 
 const Profile = () => {
+    const { data , isFetching } = useGetProfileQuery()
     const [key, setKey] = useState('profile')
 
     return (
@@ -47,10 +49,9 @@ const Profile = () => {
 
                         {key === 'profile' && (
                             <>
-                                <ProfileForm />
+                                <ProfileForm user={data?.data?.user} isProfileFetching={isFetching} />
                             </>
                         )}
-
 
                         {key === 'changePassword' && (
                             <>
@@ -60,7 +61,7 @@ const Profile = () => {
 
                         {key === 'preference' && (
                             <>
-                                <PreferenceForm />
+                                <PreferenceForm user={data?.data?.user} isProfileFetching={isFetching} />
                             </>
                         )}
                     </Col>

@@ -44,7 +44,7 @@ const ChangePasswordFrom = () => {
                         type="password"
                         {...register('current_password', {
                             required: 'Current Password is Required',
-                            maxLength: {
+                            minLength: {
                                 value: 8,
                                 message: 'Current Password must have at least 8 characters',
                             }
@@ -65,7 +65,7 @@ const ChangePasswordFrom = () => {
                         type="password"
                         {...register('password', {
                             required: 'New Password is Required',
-                            maxLength: {
+                            minLength: {
                                 value: 8,
                                 message: 'New Password must have at least 8 characters',
                             }
@@ -86,7 +86,7 @@ const ChangePasswordFrom = () => {
                         type="password"
                         {...register('confirm_password', {
                             required: 'Confirmed Password is Required',
-                            maxLength: {
+                            minLength: {
                                 value: 8,
                                 message: 'Confirmed Password must have at least 8 characters',
                             }

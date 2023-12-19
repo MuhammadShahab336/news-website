@@ -3,6 +3,7 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useRegisterMutation} from "../redux/services/authService";
+import {successToast} from "../utils/responseUtils";
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -19,7 +20,8 @@ const SignUp = () => {
     const onRegister = async (data) => {
         await registerRequest(data).unwrap()
             .then((res) => {
-                navigate('/signin')
+                successToast(res?.message)
+                navigate('/')
             })
             .catch((err) => {
                 console.log('err', err)

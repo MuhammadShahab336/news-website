@@ -5,10 +5,10 @@ import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import {MainLayout} from "../components/layouts";
 
-const SignIn = lazy(() => import('../pages'));
-const SignUp = lazy(() => import('../pages'));
-const Profile = lazy(() => import('../pages'));
-const Home = lazy(() => import('../pages'));
+const SignIn = lazy(() => import('../pages/SignIn'));
+const SignUp = lazy(() => import('../pages/SignUp'));
+const Profile = lazy(() => import('../pages/Profile'));
+const Home = lazy(() => import('../pages/Home'));
 
 
 const AppRoutes = () => {

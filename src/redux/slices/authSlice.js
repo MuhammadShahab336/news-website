@@ -24,6 +24,14 @@ const authSlice = createSlice({
                     state.isAuthenticated = true
                 }
             })
+            .addMatcher(authApi.endpoints.register.matchFulfilled, (state, { payload }) => {
+                const { statusCode, data } = payload
+                if (statusCode === 201) {
+                    state.user = data?.user
+                    state.token = data?.access_token
+                    state.isAuthenticated = true
+                }
+            })
             .addMatcher(userApi.endpoints.getProfile.matchFulfilled, (state, { payload }) => {
                 const { statusCode, data } = payload
                 const user = {
